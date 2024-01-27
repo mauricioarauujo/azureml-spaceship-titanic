@@ -10,13 +10,11 @@ from src.utils import (
 )
 
 
-def preprocess_data(input_data: pd.DataFrame, params: Dict):
+def preprocess_data(input_data: pd.DataFrame):
     """Process the raw data.
 
     Args:
         input_data (pd.DataFrame): raw data
-        params (Dict): parameters
-        parameters (Dict): parameters
     """
     processed_data = input_data.copy()
     processed_data[["Cabin_Deck", "Cabin_Num", "Cabin_Side"]] = processed_data[
@@ -36,9 +34,9 @@ def preprocess_data(input_data: pd.DataFrame, params: Dict):
     processed_data = create_counts_from_cat_features(processed_data)
     processed_data = create_age_cat_features(processed_data)
 
-    for feature in params["filter_cat_features"].keys():
+    for feature in PROCESSING_PARAMS["filter_cat_features"].keys():
         processed_data[feature] = np.where(
-            processed_data[feature].isin(params["filter_cat_features"][feature]),
+            processed_data[feature].isin(PROCESSING_PARAMS["filter_cat_features"][feature]),
             "Other",
             processed_data[feature],
         )
@@ -49,7 +47,7 @@ def main():
     # Read raw data
     raw_data = pd.read_csv(RAW_DATA_FOLDER / "train.csv")
     # Preprocess data
-    processed_data = preprocess_data(raw_data, PROCESSING_PARAMS)
+    processed_data = preprocess_data(raw_data)
     # Save processed data
     processed_data.to_csv(PROCESSED_DATA_FOLDER / "processed_data.csv", index=False)
 
