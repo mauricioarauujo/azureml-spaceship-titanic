@@ -1,0 +1,7 @@
+2024-01-27 23:45:52.506 - INFO - 46391 - azureml.train.automl._local_managed_utils.is_docker_installed:354 - Docker is installed with Docker version 24.0.7-1, build afdd53b4e341be38d2056a42113b938559bb1d94
+.
+2024-01-27 23:45:52.516 - INFO - 46391 - azureml.train.automl.automlconfig._start_execution:231 - Submitting remote.
+2024-01-27 23:54:25.851 - INFO - 46391 - azureml.automl.core.dataset_utilities._save_datasets_to_json:255 - JSON serialization of input of type <class 'NoneType'> is un-supported.
+2024-01-27 23:54:25.873 - INFO - 46391 - azureml.automl.core.dataset_utilities._save_datasets_to_json:255 - JSON serialization of input of type <class 'NoneType'> is un-supported.
+2024-01-27 23:54:25.883 - INFO - 46391 - azureml.train.automl._experiment_drivers.driver_utilities.validate_input:124 - Start data validation.
+2024-01-27 23:54:26.229 - INFO - 46391 - azureml.train.automl._experiment_drivers.driver_utilities.validate_input:137 - Validation service found the data has no errors.
