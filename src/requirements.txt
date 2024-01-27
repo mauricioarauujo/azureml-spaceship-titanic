@@ -1,0 +1,6 @@
+azureml-core
+azureml-train-automl
+matplotlib
+numpy
+pandas
+scikit-learn
