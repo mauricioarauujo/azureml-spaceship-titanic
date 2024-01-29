@@ -7,3 +7,13 @@
 2024-01-27 23:54:26.229 - INFO - 46391 - azureml.train.automl._experiment_drivers.driver_utilities.validate_input:137 - Validation service found the data has no errors.
 2024-01-28 00:17:37.471 - INFO - 46391 - azureml.automl.runtime.featurization.data_transformer.__init__:190 - Feature sweeping enabled: False
 2024-01-28 00:17:37.495 - INFO - 46391 - azureml.automl.runtime.featurization.data_transformer.__init__:191 - Feature sweeping timeout: 86400
+2024-01-29 00:49:04.893 - INFO - 8797 - azureml.automl.core.dataset_utilities._save_datasets_to_json:255 - JSON serialization of input of type <class 'NoneType'> is un-supported.
+2024-01-29 00:49:04.900 - INFO - 8797 - azureml.automl.core.dataset_utilities._save_datasets_to_json:255 - JSON serialization of input of type <class 'NoneType'> is un-supported.
+2024-01-29 00:49:04.913 - INFO - 8797 - azureml.train.automl._experiment_drivers.driver_utilities.validate_input:124 - Start data validation.
+2024-01-29 00:49:04.997 - INFO - 8797 - azureml.train.automl._experiment_drivers.driver_utilities.validate_input:137 - Validation service found the data has no errors.
+2024-01-29 00:54:38.146 - INFO - 8797 - azureml.automl.core.dataset_utilities._save_datasets_to_json:255 - JSON serialization of input of type <class 'NoneType'> is un-supported.
+2024-01-29 00:54:38.169 - INFO - 8797 - azureml.automl.core.dataset_utilities._save_datasets_to_json:255 - JSON serialization of input of type <class 'NoneType'> is un-supported.
+2024-01-29 00:54:38.181 - INFO - 8797 - azureml.train.automl._experiment_drivers.driver_utilities.validate_input:124 - Start data validation.
+2024-01-29 00:54:38.265 - INFO - 8797 - azureml.train.automl._experiment_drivers.driver_utilities.validate_input:137 - Validation service found the data has no errors.
+2024-01-29 01:46:29.983 - INFO - 8797 - azureml.automl.runtime.featurization.data_transformer.__init__:190 - Feature sweeping enabled: False
+2024-01-29 01:46:29.992 - INFO - 8797 - azureml.automl.runtime.featurization.data_transformer.__init__:191 - Feature sweeping timeout: 86400
