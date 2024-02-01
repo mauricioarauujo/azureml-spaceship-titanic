@@ -13,6 +13,24 @@ The task is to predict which passengers were transported by the anomaly using re
 ### Access
 The data is stored in an Azure blob storage, and I am using the Azure Machine Learning dataset functionality to access it.
 
+## Environment
+
+### Local Environment
+For local development and running, the required dependencies are specified in `notebooks/conda_dependencies.yml`. You can set up the environment using Conda with the following command:
+
+```bash
+conda env create --file notebooks/conda_dependencies.yml
+conda activate sklearn-env
+```
+![image](https://github.com/mauricioarauujo/azureml-spaceship-titanic/assets/58861384/5cc178f7-43b4-4fcd-8fbd-5f046099c6c0)
+
+### AzureML Workspace Environment
+If you are working in an AzureML workspace, you can use the built-in "Python 3.8 - Azure ML" environment. Follow these steps:
+
+- Select the "Python 3.8 - Azure ML" environment in your AzureML workspace.
+- Authenticate to your AzureML workspace.
+- Run the notebooks without any issues.
+
 
 ## Automated ML
  I used Azure AutoML with settings like experiment_timeout_minutes=30, max_concurrent_iterations=4, and primary_metric='accuracy'.
