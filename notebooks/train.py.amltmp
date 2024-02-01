@@ -1,84 +1,83 @@
 
 import argparse
 import joblib
+import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
-from azureml.core.run import Run
-
-
-def preprocess_data(input_data: pd.DataFrame):
-    """Process the raw data.
-
-    Args:
-        input_data (pd.DataFrame): raw data
-    """
-    processed_data = input_data.copy()
-    processed_data[["Cabin_Deck", "Cabin_Num", "Cabin_Side"]] = processed_data[
-        "Cabin"
-    ].str.split("/", expand=True)
-    processed_data = processed_data.astype({"Cabin_Num": "float64"})
-    processed_data = create_cabin_region(processed_data)
-
-    processed_data["Nickname"] = processed_data["Name"].str.split(" ").str[1]
-    processed_data["Group"] = (
-        processed_data["PassengerId"]
-        .apply(lambda x: x.split("_")[0])
-        .astype(int)
-    )
-    processed_data = processed_data.drop(columns=["Cabin", "Name"])
-
-    processed_data = create_counts_from_cat_features(processed_data)
-    processed_data = create_age_cat_features(processed_data)
-
-    for feature in PROCESSING_PARAMS["filter_cat_features"].keys():
-        processed_data[feature] = np.where(
-            processed_data[feature].isin(PROCESSING_PARAMS["filter_cat_features"][feature]),
-            "Other",
-            processed_data[feature],
-        )
-
-    return processed_data
+from azureml.core import Run, Dataset
 
 def main():
-# Get the experiment run context
-run = Run.get_context()
+    # Get the experiment run context
+    run = Run.get_context()
+    parser = argparse.ArgumentParser()
 
-# Parse the hyperparameters
-parser = argparse.ArgumentParser()
-parser.add_argument('--C', type=float, default=1.0, help='Inverse of regularization strength')
-parser.add_argument('--max_iter', type=int, default=100, help='Maximum number of iterations for the solver')
-args = parser.parse_args()
+    # Input dataset
+    parser.add_argument("--input-data", type=str, dest='input_data', help='training dataset')
 
-raw_df = pd.read_csv('../data/01_raw/train.csv')
-processed_df = preprocess_data(raw_df).drop(columns=["PassengerId"])
-X = processed_df.drop(columns=["Transported"])
-y = processed_df["Transported"]
+    # Parse the hyperparameters
+    parser.add_argument('--C', type=float, default=1.0, help='Inverse of regularization strength')
+    parser.add_argument('--max_iter', type=int, default=100, help='Maximum number of iterations for the solver')
+    args = parser.parse_args()
 
-# Split the data into training and validation sets
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+    # Load the registered dataset
+    processed_df = run.input_datasets['training_data'].to_pandas_dataframe() 
 
-# Train a logistic regression model
-model = LogisticRegression(C=args.C, max_iter=args.max_iter)
-model.fit(X_train, y_train)
+    X = processed_df.drop(columns=["Transported"])
+    y = processed_df["Transported"]
 
-# Make predictions on the validation set
-y_pred = model.predict(X_val)
+    # Split the data into training and validation sets
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Calculate accuracy
-accuracy = accuracy_score(y_val, y_pred)
+    numeric_features = X_train.select_dtypes(include=[np.number]).columns.tolist()
+    categorical_features = X_train.select_dtypes(include=["object"]).columns.tolist()
 
-# Log the hyperparameters and accuracy to the run
-run.log('C', args.C)
-run.log('max_iter', args.max_iter)
-run.log('Accuracy', accuracy)
+    # Train a logistic regression model
+    numeric_transformer = Pipeline(
+        steps=[("imputer", KNNImputer(n_neighbors=5)), ("scaler", StandardScaler())]
+    )
 
-# Save the model
-model_filename = './hyperdrive_model.joblib'
-joblib.dump(value=model, filename=model_filename)
+    categorical_transformer = Pipeline(
+        steps=[
+            ("imputer", SimpleImputer(strategy="most_frequent")),
+            ("onehot", OneHotEncoder(handle_unknown="ignore")),
+        ]
+    )
 
-# Upload the model file explicitly into the artifacts directory
-run.upload_file(name='outputs/' + model_filename, path_or_stream=model_filename)
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("num", numeric_transformer, numeric_features),
+            ("cat", categorical_transformer, categorical_features),
+        ]
+    )
 
-# Complete the run
-run.complete()
+    model = Pipeline(
+        [
+            ("preprocessor", preprocessor),
+            ("classifier", LogisticRegression(C=args.C, max_iter=args.max_iter))
+        ]
+    )
+    model.fit(X_train, y_train)
+
+    # Make predictions on the validation set
+    y_pred = model.predict(X_val)
+
+    # Calculate accuracy
+    accuracy = accuracy_score(y_val, y_pred)
+
+    # Log the hyperparameters and accuracy to the run
+    run.log('C', args.C)
+    run.log('max_iter', args.max_iter)
+    run.log('Accuracy', accuracy)
+
+    # Save the model in the run outputs
+    os.makedirs('outputs', exist_ok=True)
+    joblib.dump(value=model, filename='outputs/hyperdrive_model.joblib')
+
+    # Complete the run
+    run.complete()
+
+
+if __name__ == '__main__':
+    main()
