@@ -64,9 +64,6 @@ The Logistic Regression model achieved an accuracy of 0.78 during hyperparameter
 ![image](https://github.com/mauricioarauujo/azureml-spaceship-titanic/assets/58861384/4ca8317d-12e1-4738-ad09-a52fee38509e)
 
 
-
-*TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
-
 ## Model Deployment
 The deployed model, based on AutoML, exhibits an accuracy higher than alternative models. 
 
