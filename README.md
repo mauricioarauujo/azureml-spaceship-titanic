@@ -35,10 +35,16 @@ The best model achieved an accuracy of 0.81. The parameters included using an Vo
 For hyperparameter tuning, I opted for the Logistic Regression model, specifically fine-tuning the regularization parameter (C) and maximum iterations (max_iter). Using Azure HyperDrive, I configured a Bandit Policy for early termination and Random Parameter Sampling to explore hyperparameter values. The objective was to maximize accuracy, allowing for a total of 20 runs and a maximum of 4 concurrent runs. This concise strategy aimed to enhance the model's performance efficiently.
 
 ### Results
-The Logistic Regression model achieved an accuracy of 0.78 during hyperparameter tuning. The optimal hyperparameters for this performance were found to be C=1 and max_iter=200. To potentially enhance the model's performance further, additional exploration of hyperparameter combinations or alternative model architectures could be considered in future iterations.
+The Logistic Regression model achieved an accuracy of 0.78 during hyperparameter tuning. The optimal hyperparameters for this performance were found to be C=1 and max_iter=250. To potentially enhance the model's performance further, additional exploration of hyperparameter combinations or alternative model architectures could be considered in future iterations.
 
-![image](https://github.com/mauricioarauujo/azureml-spaceship-titanic/assets/58861384/8c103922-cb8b-472b-a876-81ef99a673de)
-![image](https://github.com/mauricioarauujo/azureml-spaceship-titanic/assets/58861384/ecd113e6-1a0f-432b-9204-707fd31a91c3)
+![image](https://github.com/mauricioarauujo/azureml-spaceship-titanic/assets/58861384/a322b27c-212c-4857-bc28-b6e5bc479fd8)
+![image](https://github.com/mauricioarauujo/azureml-spaceship-titanic/assets/58861384/f66637ff-d998-45dd-bf0e-00482e36904c)
+
+
+![image](https://github.com/mauricioarauujo/azureml-spaceship-titanic/assets/58861384/1255a634-ba67-4d95-b281-9a014f02a899)
+![image](https://github.com/mauricioarauujo/azureml-spaceship-titanic/assets/58861384/535384d1-96e8-403a-840b-9cf7d05c295e)
+![image](https://github.com/mauricioarauujo/azureml-spaceship-titanic/assets/58861384/4ca8317d-12e1-4738-ad09-a52fee38509e)
+
 
 
 *TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
