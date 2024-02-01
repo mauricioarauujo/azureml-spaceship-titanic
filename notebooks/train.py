@@ -4,9 +4,16 @@ import joblib
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import KNNImputer, SimpleImputer
 from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, PolynomialFeatures, StandardScaler
 from sklearn.metrics import accuracy_score
 from azureml.core import Run, Dataset
+
+from scipy.stats import randint
+
 
 def main():
     # Get the experiment run context
