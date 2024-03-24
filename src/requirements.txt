@@ -1,6 +1,9 @@
 azureml-core
 azureml-train-automl
-matplotlib
+azureml-fsspec
+mltable
 numpy
 pandas
 scikit-learn
+matplotlib
+seaborn

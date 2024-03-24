@@ -1,3 +1,4 @@
 *amlignore*
 __queuestorage__/
 *_checkpoints/
+*amltmp*
